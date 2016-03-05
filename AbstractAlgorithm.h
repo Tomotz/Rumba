@@ -1,3 +1,5 @@
+#pragma once
+
 #include "AbstractSensor.h"
 
 class AbstractAlgorithm {

@@ -1,5 +1,11 @@
-#include "Simulator.h"
+#include <iostream>
+#include <string>
+#include <typeinfo>
 
-class Simulator{
-public:
-};
+#include "Simulator.h"
+using namespace std;
+
+int main(int argc, char *argv[])
+{
+	cout << "hi";
+}

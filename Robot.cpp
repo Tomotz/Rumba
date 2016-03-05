@@ -1,5 +1,2 @@
-#include "Robot.h"
 
-class Robot{
-public:
-};
+#include "Robot.h"

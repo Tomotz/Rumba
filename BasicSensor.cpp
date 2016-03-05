@@ -1,10 +1,9 @@
 #include "BasicSensor.h"
 
 
-class BasicSensor : AbstractSensor {
-public:
-	struct SensorInformation sense() const
-	{
-
-	}
+struct SensorInformation {
+	int dirtLevel;
+	bool isWall[4];
 };
+
+
