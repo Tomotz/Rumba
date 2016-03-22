@@ -1,9 +1,17 @@
-#pragma once
-enum class Direction { East, West, South, North, Stay };
-typedef struct SensorInformation SensorInformation;
-class AbstractSensor {
+
+#ifndef __ABSTRACT_SENSOR__H_
+#define __ABSTRACT_SENSOR__H_
+
+#include "SensorInformation.h"
+#include "Direction.h"
+
+class AbstractSensor
+{
 public:
-	// returns the sensor's information of the current location of the robot
+	virtual ~AbstractSensor() {}
+	// returns the sensor's information of the current location of the robot 
 	virtual SensorInformation sense() const = 0;
-	virtual void move(Direction direction) = 0;
+	virtual bool move(Direction direction) = 0;
 };
+
+#endif //__ABSTRACT_SENSOR__H_
