@@ -18,7 +18,7 @@ class Simulator{
 public:
 	void simulate(char *config_file, char *houses_path);
 	void print_house(House& h);
-	static ConfigInfo config;
+	ConfigInfo config;
 private:
 	vector<std::string> split(const std::string &s, char delim);
 	void processLine(const string& line);

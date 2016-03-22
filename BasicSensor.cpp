@@ -23,14 +23,19 @@ struct SensorInformation BasicSensor::sense() const
 {
 	SensorInformation out;
 	out.dirtLevel = 0;
+	//check dirt level
 	char cur_pos = house->matrix[robot_pos.row][robot_pos.col];
 	if (cur_pos > '0' && cur_pos <= '9')
 	{
 		out.dirtLevel = cur_pos - '0';
 	}
-	int dir = Direction::North;
-	out.isWall[] = house->matrix[robot_pos.row - 1][robot_pos.col];
 
+	//handle walls
+	out.isWall[(int)Direction::North] = house->matrix[robot_pos.row - 1][robot_pos.col] == 'W';
+	out.isWall[(int)Direction::South] = house->matrix[robot_pos.row + 1][robot_pos.col] == 'W';
+	out.isWall[(int)Direction::East] = house->matrix[robot_pos.row][robot_pos.col+1] == 'W';
+	out.isWall[(int)Direction::West] = house->matrix[robot_pos.row - 1][robot_pos.col-1] == 'W';
+	return out;
 
 }
 
@@ -60,16 +65,16 @@ bool BasicSensor::move(Direction direction)
 	if (place == 'D') //in docking station
 	{
 		robot->isInDoc = true;
-		robot->battaryLeft += Simulator::config.batteryRechargeRate;
-		if (robot->battaryLeft > Simulator::config.batteryCapacity)
+		robot->battaryLeft += robot->config->batteryRechargeRate;
+		if (robot->battaryLeft > robot->config->batteryCapacity)
 		{
-			robot->battaryLeft = Simulator::config.batteryCapacity;
+			robot->battaryLeft = robot->config->batteryCapacity;
 		}
 		return true;
 	}
 	//not in docking station
 	robot->isInDoc = false;
-	robot->battaryLeft += Simulator::config.batteryConsumprionRate;
+	robot->battaryLeft += robot->config->batteryConsumprionRate;
 	if (place > '0' && place <= '9')
 	{
 		house->matrix[robot_pos.row][robot_pos.col] = place - 1;
