@@ -22,7 +22,7 @@ BasicSensor::BasicSensor(House &i_house, Robot &i_robot)
 
 		}
 		int col = house->matrix[i].find("D");
-		if (col == string::npos)
+		if (col == (int)string::npos)
 			continue;
 		robot_pos.row = i;
 		robot_pos.col = col;
@@ -68,6 +68,8 @@ bool BasicSensor::move(Direction direction)
 		break;
 	case Direction::West:
 		robot_pos.col -= 1;
+		break;
+	default:
 		break;
 	}
 	char place = house->matrix[robot_pos.row][robot_pos.col];

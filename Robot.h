@@ -20,8 +20,10 @@ public:
 	~Robot();
 	Robot(struct ConfigInfo &config, House &house);
 	struct stepData step(bool is_winner, int steps_left);
-	AbstractAlgorithm *algo;
+
 	const struct ConfigInfo &conf;
 	stepData data;
+private:
+	AbstractAlgorithm *algo;
 	AbstractSensor *m_sensor;
 };

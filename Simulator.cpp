@@ -3,14 +3,14 @@
 #include <typeinfo>
 #include <fstream>
 #include <stdlib.h>  
-#include <vector>
 #include <map>
+#include <cstring>
 
 #include "Simulator.h"
 using namespace std;
-//TODO: add walls around house if non exists
 
-void Simulator::oneHouseHandler(char *house_file)
+
+void Simulator::oneHouseHandler(string house_file)
 {
 	ifstream fin(house_file);
 	House house;
@@ -66,7 +66,6 @@ void Simulator::oneHouseHandler(char *house_file)
 			break;
 		}
 	}
-	print_house(house);
 	fin.close();
 }
 
@@ -89,7 +88,7 @@ int Simulator::calc_score(struct stepData &data)
 	return (score > 0 ? score : 0);
 }
 
-void Simulator::simulate(char *config_file, char *house_file)
+void Simulator::simulate(string config_file, string house_file)
 {
 	simulationStep = 0;
 	curPositionInCompetition = 1;
@@ -100,12 +99,12 @@ void Simulator::simulate(char *config_file, char *house_file)
 	ifstream conf(config_file);
 
 	//parse the config file
-	getline(conf, file_content);
+	getline(conf, file_content) ;
 	string s = file_content.substr(file_content.find('=')+1, file_content.length() - file_content.find('='));
 	config.maxSteps = stoi(s);
 
 	getline(conf, file_content);
-	s = file_content.substr(file_content.find('=')+1, file_content.length() - file_content.find('='));
+	s = file_content.substr(file_content.find('=') + 1, file_content.length() - file_content.find('='));
 	config.maxStepsAfterWinner = stoi(s);
 
 	getline(conf, file_content);
@@ -132,10 +131,10 @@ void Simulator::simulate(char *config_file, char *house_file)
 
 int main(int argc, char *argv[])
 {
-	char *config_file, *houses_path;
+	string config_file, houses_path;
 	//handle input args. If no args found use CWD as input.
-	config_file = "C:\\Users\\tom\\Desktop\\TAU\\solutions\\AdvancedProgramming\\Rumba\\Debug\\config.ini";//"config.ini";
-	houses_path = "C:\\Users\\tom\\Desktop\\TAU\\solutions\\AdvancedProgramming\\Rumba\\Debug\\Orenshtein.house";
+	config_file = "config.ini";//"config.ini";
+	houses_path = "Orenshtein.house";
 	if (argc >= 3)
 	{ //at least one input arg
 		if (strcmp(argv[1], "-config") == 0)
@@ -174,7 +173,7 @@ int main(int argc, char *argv[])
 	s.simulate(config_file, houses_path);
 	
 	//wait for input. Just so that the program won't close in visual studio
-	char a[1024];
-	cin >> a;
+	//char a[1024];
+	//cin >> a;
 	return 0;
-}
+};

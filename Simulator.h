@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 #include "Robot.h"
 #include "House.h"
 
@@ -17,15 +16,13 @@ typedef struct ConfigInfo ConfigInfo;
 
 class Simulator{
 public:
-	void simulate(char *config_file, char *houses_path);
+	void simulate(string config_file, string houses_path);
 	void print_house(House& h);
-	ConfigInfo config;
-	int calc_score(struct stepData &data);
 private:
-	vector<std::string> split(const std::string &s, char delim);
-	void processLine(const string& line);
-	void oneHouseHandler(char *house_file); //runs all robots' simulations on a single house
-	class Robot *bots;
+	void oneHouseHandler(string house_file); //runs all robots' simulations on a single house
+	int calc_score(struct stepData &data);
+
+	ConfigInfo config;
 	int simulationStep;
 	int winnerNumSteps;
 	int curPositionInCompetition;
