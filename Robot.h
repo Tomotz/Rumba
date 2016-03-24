@@ -11,7 +11,7 @@ typedef struct stepData stepData;
 
 class Robot{
 public:
-	Robot(struct ConfigInfo &config);
+	Robot(struct ConfigInfo &config, House &house);
 	struct stepData step(bool is_winner, int steps_left);
 	AbstractAlgorithm *algo;
 	const struct ConfigInfo &conf;
