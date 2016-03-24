@@ -11,7 +11,7 @@ public:
 	void setConfiguration(map<string, int> config);
 
 
-	StupidAlgorithm(House &house, Robot &robot);
+	StupidAlgorithm();
 	// setSensor is called once when the Algorithm is initialized
 	void setSensor(const AbstractSensor& sensor);
 	// step is called by the simulation for each time unit
@@ -20,5 +20,5 @@ public:
 	// when steps == MaxSteps - MaxStepsAfterWinner
 	// parameter stepsTillFinishing == MaxStepsAfterWinner
 	void aboutToFinish(int stepsTillFinishing) {  };
-	AbstractSensor *m_sensor;
+	AbstractSensor const *m_sensor;
 };

@@ -24,8 +24,49 @@ void Simulator::oneHouseHandler(char *house_file)
 	for (int i = 0; i < house.R; i++)
 	{
 		getline(fin, house.matrix[i]);
-
 	}
+	for (int i = 0; i < house.R; i++)
+	{
+		house.matrix[i][0] = 'W';
+		house.matrix[i][house.C-1] = 'W';
+	}
+	for (int i = 0; i < house.C; i++)
+	{
+		house.matrix[0][i] = 'W';
+		house.matrix[house.R-1][i] = 'W';
+	}
+	Robot irobot(config, house);
+	while (true)
+	{
+		stepData data = irobot.step(false, 0);
+		if (!data.isLegalMove)
+		{
+			cout << "algorithm made an invalid step" << endl;
+			int score = 0;
+			cout << "[" << house.name << "]\t" << score << endl;
+			break;
+		}
+		if (data.countSteps == config.maxSteps ||
+			(data.dustLeft == 0 && data.isInDock))
+		{ //robot finished
+			if (winnerNumSteps == 0)
+				winnerNumSteps = data.countSteps;
+			int score = calc_score(data);
+			cout << "[" << house.name << "]\t" << score << endl;
+			if (curPositionInCompetition < 4)
+				curPositionInCompetition++; //TODO: in ex2 this cannot happen here.
+			break;
+		}
+		if (data.battaryLeft <= 0)
+		{
+			data.countSteps = simulationStep;
+			int score = calc_score(data);
+			cout << "[" << house.name << "]\t" << score << endl;
+			cout << "no battery left" << endl;
+			break;
+		}
+	}
+	print_house(house);
 	fin.close();
 }
 
@@ -38,29 +79,21 @@ void Simulator::print_house(House& h)
 
 	}
 }
-
-/*
-vector<std::string> Simulator::split(const string &s, char delim) {
-	vector<std::string> elems;
-	stringstream ss(s);
-	string item;
-	while (getline(ss, item, delim)) {
-		elems.push_back(item);
-	}
-	return elems;
-}
-void Simulator::processLine(const string& line)
+int Simulator::calc_score(struct stepData &data)
 {
-	vector<string> tokens = split(line, '=');
-	if (tokens.size() != 2)
-	{
-		return;
-	}
-	this->parameters[trim(tokens[0])] = stoi(tokens[1]);
+	int score = 2000;
+	score -= (curPositionInCompetition - 1) * 50;
+	score += winnerNumSteps - data.countSteps;
+	score -= (data.sumDirtInHouse - data.dustCollected) * 3;
+	score += data.isInDock ? 50 : -200;
+	return (score > 0 ? score : 0);
 }
-*/
+
 void Simulator::simulate(char *config_file, char *house_file)
 {
+	simulationStep = 0;
+	curPositionInCompetition = 1;
+	winnerNumSteps = 0;
 
 	string file_content;
 	//open the config file

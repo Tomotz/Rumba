@@ -15,6 +15,8 @@ public:
 	struct SensorInformation sense() const;
 	bool move(Direction direction);
 	BasicSensor(House &i_house, Robot &i_robot);
+	BasicSensor(const BasicSensor &) = delete;
+	BasicSensor& operator=(const BasicSensor&) = delete;
 private:
 	House *house;
 	Position robot_pos;

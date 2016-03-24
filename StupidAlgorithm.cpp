@@ -1,16 +1,17 @@
 #include "StupidAlgorithm.h"
 #include "BasicSensor.h"
+#include <ctime>
 
 
-StupidAlgorithm::StupidAlgorithm(House &house, Robot &robot)
+StupidAlgorithm::StupidAlgorithm()
 {
-	BasicSensor B(house, robot);
-	setSensor(B);
+	srand(time(0));
+	m_sensor = NULL;
 }
 
 void StupidAlgorithm::setSensor(const AbstractSensor& sensor)
 {
-	m_sensor = sensor;
+	m_sensor = &sensor;
 }
 
 
@@ -26,7 +27,6 @@ Direction StupidAlgorithm::step()
 		if (!info.isWall[move_dir])
 			break;
 	}
-	m_sensor->move((Direction)move_dir);
 	return (Direction)move_dir;
 }
 
